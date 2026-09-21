@@ -1,0 +1,19 @@
+services:
+  ledger:
+    build: .
+    image: webhook-ledger:latest
+    container_name: webhook-ledger
+    ports:
+      - "8000:8000"
+    environment:
+      # Override in production!
+      WEBHOOK_SECRET: "whsec_dev_secret_change_me"
+      SIGNATURE_TOLERANCE_SECONDS: "300"
+      REPLAY_WINDOW_SECONDS: "86400"
+      LEDGER_DB_PATH: "/data/ledger.db"
+    volumes:
+      - ledger-data:/data
+    restart: unless-stopped
+
+volumes:
+  ledger-data:
